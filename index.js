@@ -47,7 +47,9 @@ io.on("connection", (socket) => {
       // join a room
       socket.join(roomID);
 
-      // we also want to send th elist of users to every user thta joins the room
+      // let every participant know that a new user has joined
+      socket.to(roomID).emit("user-joined", { newUserID: ID });
+      // we also want to send the list of users to the room every time someone joins the room
       socket.emit("get-users", {
         roomID,
         participants: rooms[roomID],
